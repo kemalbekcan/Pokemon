@@ -1,5 +1,15 @@
-import { GET_POKE_SUCCESS, GET_POKE_STATS, POKE_FAILED, POKE_STATS_FAILED, POKE_ABILITIES_SUCCESS, POKE_ABILITIES_FAILED, ADD_FAVOURITE_SUCCESS, ADD_FAVOURITE_FAILED, CATCH_POKEMON_SUCCESS } from '../actions/types';
-import PokemonList from '../Components/PokemonList';
+import {
+    GET_POKE_SUCCESS,
+    GET_POKE_STATS,
+    POKE_FAILED,
+    POKE_STATS_FAILED,
+    POKE_ABILITIES_SUCCESS,
+    POKE_ABILITIES_FAILED,
+    ADD_LIKE_SUCCESS,
+    ADD_UNLIKE_SUCCESS,
+    LIKE_FAILED,
+    CATCH_POKEMON_SUCCESS,
+} from '../actions/types';
 
 interface IIinitialState {
     loading: boolean;
@@ -53,13 +63,18 @@ interface IPokeAbilitiesFailed {
     payload: string;
 }
 
-interface IPokeFavSuccess {
-    type: typeof ADD_FAVOURITE_SUCCESS;
+interface IPokeLikeSuccess {
+    type: typeof ADD_LIKE_SUCCESS;
     payload: string;
 }
 
+interface IPokeUnlikeSuccess {
+    type: typeof ADD_UNLIKE_SUCCESS;
+    payload: any;
+}
+
 interface IPokeFavFailed {
-    type: typeof ADD_FAVOURITE_FAILED;
+    type: typeof LIKE_FAILED;
     payload: string;
 }
 
@@ -68,7 +83,7 @@ interface IPokeCatchSuccess {
     payload: string;
 }
 
-export type pokeActions = IPokeActions | IPokeFailed | IPokeGetImage | IPokeErrFailed | IPokeAbilities | IPokeAbilitiesFailed | IPokeFavSuccess | IPokeFavFailed | IPokeCatchSuccess;
+export type pokeActions = IPokeActions | IPokeFailed | IPokeGetImage | IPokeErrFailed | IPokeAbilities | IPokeAbilitiesFailed | IPokeLikeSuccess | IPokeUnlikeSuccess | IPokeFavFailed | IPokeCatchSuccess;
 
 
 const pokeReducers = (state: IIinitialState = initialState, action: pokeActions) => {
@@ -80,16 +95,22 @@ const pokeReducers = (state: IIinitialState = initialState, action: pokeActions)
                 loading: false,
                 successMessage: "Success"
             }
-        case ADD_FAVOURITE_SUCCESS:
+        case ADD_LIKE_SUCCESS:
             return {
                 ...state,
+                favourite: [action.payload, ...state.favourite],
                 loading: false,
-                favourite: [action.payload, ...state.favourite]
             }
-        case ADD_FAVOURITE_FAILED:
+        case ADD_UNLIKE_SUCCESS:
             return {
                 ...state,
-                failedMessage: 'Something went wrong'
+                favourite: state.favourite.filter((fav: any) => fav.id !== action.payload.id)
+            }
+        case LIKE_FAILED:
+            return {
+                ...state,
+                failedMessage: 'Something went wrong',
+                loading: false
             }
         case GET_POKE_STATS:
             return {

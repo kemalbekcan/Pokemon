@@ -26,7 +26,7 @@ const Details: React.FunctionComponent<IProps> = ({
   const imageUrl = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${match.params.id}.png?raw=true`;
   useEffect(() => {
     getPokemonStat(match.params.id);
-  }, [getPokemonStat]);
+  }, [getPokemonStat, match.params.id]);
 
   const [name, setName] = useState<string>();
 
@@ -38,7 +38,7 @@ setName(res.data.name)
     .catch(err => {
       console.log(err)
     })
-  }, [])
+  }, [match.params.id])
 
   return loading || stats === null ? (
     <Loading />

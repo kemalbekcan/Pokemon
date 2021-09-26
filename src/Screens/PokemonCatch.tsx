@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { Fragment, SetStateAction, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Navbar from "../Components/Navbar";
 import { bindActionCreators, Dispatch } from "redux";
@@ -48,6 +48,7 @@ const PokemonCatch = ({catchPokemon, pokeCatch}: IProps) => {
                       <div className="text-center">
                         <img
                           src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${wildPokemon.id}.png?raw=true`}
+                          alt={"Pokemon Avatar"}
                         />
                         <div>
                           <button className="btn btn-primary mt-3 mb-3" onClick={onClick}>

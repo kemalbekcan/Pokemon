@@ -1,30 +1,22 @@
 import { connect } from "react-redux";
-import React, { ChangeEvent, Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
 import EventButton from "./EventButton";
-import { addFavourite } from "../actions/pokemonActions";
+import { addLike, addUnlike } from "../actions/pokemonActions";
 
 interface IProps {
   pokemon: {name: string, url: string};
-  addFavourite: (pokemonIndex: string) => void;
+  addLike: (pokemonIndex: string) => void;
+  addUnlike: (pokemonIndex: string) => void;
   favourite: any;
 }
 
-const PokemonList = ({ pokemon, addFavourite, favourite }: IProps) => {
+const PokemonList = ({ pokemon, addLike, addUnlike, favourite }: IProps) => {
   const pokemonIndex =
     pokemon.url.split("/")[pokemon.url.split("/").length - 2];
   const imageUrl = `https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${pokemonIndex}.png?raw=true`;
-  const [favo, setFavo] = useState(favourite);
 
-  const like = () => {
-    addFavourite(pokemonIndex);
-    setFavo(pokemonIndex);
-  };
-
-  const dislike = () => {
-    setFavo("");
-  };
   return (
     <Fragment>
       <div className="card mx-auto mx-auto mt-3" style={{ width: "80%" }}>
@@ -43,16 +35,16 @@ const PokemonList = ({ pokemon, addFavourite, favourite }: IProps) => {
           <Link to={`/details/${pokemonIndex}`} className="btn btn-primary">
             Go details
           </Link>
+            {favourite.filter((fav: { id: string; }) => fav.id === pokemonIndex).length > 0 ? (
+                <button className="btn btn-primary shadow-none mx-3" onClick={() => addUnlike(pokemonIndex)}>
+                  like
+                </button>
+            ) : (
+                <button className="btn btn-primary shadow-none mx-3" onClick={() => addLike(pokemonIndex)}>
+                  Unlike
+                </button>
+            )}
 
-          {favo == pokemonIndex ? (
-            <button className="btn btn-primary mx-3" onClick={dislike}>
-              Liked
-            </button>
-          ) : (
-            <button className="btn btn-primary mx-3" onClick={like}>
-              Add Favourite
-            </button>
-          )}
           </div>
           
         </div>
@@ -66,7 +58,8 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  addFavourite: bindActionCreators(addFavourite, dispatch),
+  addLike: bindActionCreators(addLike, dispatch),
+  addUnlike: bindActionCreators(addUnlike, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonList);

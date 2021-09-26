@@ -5,10 +5,10 @@ import {
   POKE_STATS_FAILED,
   POKE_ABILITIES_SUCCESS,
   POKE_ABILITIES_FAILED,
-  ADD_FAVOURITE_SUCCESS,
-  ADD_FAVOURITE_FAILED,
+  ADD_LIKE_SUCCESS,
+  LIKE_FAILED,
   CATCH_POKEMON_SUCCESS,
-  CATCH_POKEMON_FAILED
+  CATCH_POKEMON_FAILED, ADD_UNLIKE_SUCCESS
 } from "./types";
 import axios from "axios";
 import { Dispatch } from "redux";
@@ -50,13 +50,21 @@ export const getPokemonAbilities =
     }
   };
 
-  export const addFavourite = (id: string) => async (dispatch: Dispatch) => {
+  export const addLike = (id: string) => async (dispatch: Dispatch) => {
     try {
-      dispatch({ type: ADD_FAVOURITE_SUCCESS, payload: {id} });
+      dispatch({ type: ADD_LIKE_SUCCESS, payload: {id} });
     } catch (err) {
-      dispatch({type: ADD_FAVOURITE_FAILED, payload: err})
+      dispatch({type: LIKE_FAILED, payload: err})
     }
   };
+
+  export const addUnlike = (id: string) => async (dispatch: Dispatch) => {
+    try{
+      dispatch({type: ADD_UNLIKE_SUCCESS, payload: {id}})
+    }catch (err){
+      dispatch({type: LIKE_FAILED, payload: err})
+    }
+  }
 
   export const catchPokemon = (pokemon: any) => async (dispatch: Dispatch) => {
     try {

@@ -21,7 +21,7 @@ const Pagination = ({ postsPerPage, totalPosts, paginate }: any) => {
                 <Link
                   onClick={() => paginate(number)}
                   to={`${number}`}
-                  className="page-link"
+                  className="page-link shadow-none"
                 >
                   {number}
                 </Link>
