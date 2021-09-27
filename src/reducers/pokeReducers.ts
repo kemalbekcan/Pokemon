@@ -9,6 +9,8 @@ import {
     ADD_UNLIKE_SUCCESS,
     LIKE_FAILED,
     CATCH_POKEMON_SUCCESS,
+    DELETE_CATCH_POKEMON,
+    ALL_DELETE_CATCH_POKEMON
 } from '../actions/types';
 
 interface IIinitialState {
@@ -83,7 +85,17 @@ interface IPokeCatchSuccess {
     payload: string;
 }
 
-export type pokeActions = IPokeActions | IPokeFailed | IPokeGetImage | IPokeErrFailed | IPokeAbilities | IPokeAbilitiesFailed | IPokeLikeSuccess | IPokeUnlikeSuccess | IPokeFavFailed | IPokeCatchSuccess;
+interface IPokeDeleteCatchSuccess {
+    type: typeof DELETE_CATCH_POKEMON;
+    payload: any;
+}
+
+interface IPokeAllDeleteCatchSuccess {
+    type: typeof ALL_DELETE_CATCH_POKEMON;
+    payload: any;
+}
+
+export type pokeActions = IPokeActions | IPokeFailed | IPokeGetImage | IPokeErrFailed | IPokeAbilities | IPokeAbilitiesFailed | IPokeLikeSuccess | IPokeUnlikeSuccess | IPokeFavFailed | IPokeCatchSuccess | IPokeDeleteCatchSuccess | IPokeAllDeleteCatchSuccess;
 
 
 const pokeReducers = (state: IIinitialState = initialState, action: pokeActions) => {
@@ -92,8 +104,8 @@ const pokeReducers = (state: IIinitialState = initialState, action: pokeActions)
             return {
                 ...state,
                 pokemons: action.payload,
+                successMessage: "Success",
                 loading: false,
-                successMessage: "Success"
             }
         case ADD_LIKE_SUCCESS:
             return {
@@ -104,7 +116,8 @@ const pokeReducers = (state: IIinitialState = initialState, action: pokeActions)
         case ADD_UNLIKE_SUCCESS:
             return {
                 ...state,
-                favourite: state.favourite.filter((fav: any) => fav.id !== action.payload.id)
+                favourite: state.favourite.filter((fav: any) => fav.id !== action.payload.id),
+                loading: false
             }
         case LIKE_FAILED:
             return {
@@ -121,32 +134,44 @@ const pokeReducers = (state: IIinitialState = initialState, action: pokeActions)
         case POKE_FAILED:
             return {
                 ...state,
+                failedMessage: 'Something went wrong !',
                 loading: false,
-                failedMessage: 'Something went wrong !'
             }
         case POKE_STATS_FAILED:
             return {
                 ...state,
-                loading: false,
-                failedMessage: 'Image upload error !'
+                failedMessage: 'Image upload error !',
+                loading: false
             }
         case POKE_ABILITIES_SUCCESS:
             return {
                 ...state,
+                abilities: action.payload,
                 loading: false,
-                abilities: action.payload
             }
         case POKE_ABILITIES_FAILED:
             return {
                 ...state,
+                failedMessage: 'Something went wrong !',
                 loading: false,
-                failedMessage: 'Something went wrong !'
             }
         case CATCH_POKEMON_SUCCESS:
             return {
                 ...state,
+                pokeCatch: [action.payload, ...state.pokeCatch],
                 loading: false,
-                pokeCatch: [action.payload, ...state.pokeCatch]
+            }
+        case DELETE_CATCH_POKEMON:
+            return {
+                ...state,
+                pokeCatch: state.pokeCatch.filter((item: any) => item.pokemon !== action.payload.pokemon),
+                loading: false
+            }
+        case ALL_DELETE_CATCH_POKEMON:
+            return {
+                ...state,
+                pokeCatch: [],
+                loading: false
             }
         default:
             return state;

@@ -36,11 +36,10 @@ const Navbar = () => {
                   <li className="nav-item">
                     <Link to="/">
                       <img
-                          className="img-fluid"
+                          className="img-fluid logo"
                           src="../img/pokeapi_logo.png"
                           alt="logo"
-                          width="100"
-                          height="100"
+                          
                       />
                     </Link>
                   </li>

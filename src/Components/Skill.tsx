@@ -11,15 +11,12 @@ const Skill: React.FunctionComponent<IProps> = ({ statPoke }) => {
     bar: "#d9a404",
     title: {
       text: "#fff",
-      background: "#ef5350",
-      hue: 30,
-      saturation:50,
-      level:30
+      background: "#ef5350"
     },
   };
   return (
     <Fragment>
-      <SkillBar skills={skills} colors={colors} animationDuration={3000} />
+      <SkillBar skills={skills} colors={colors} animationDuration={3000}  />
     </Fragment>
   );
 };

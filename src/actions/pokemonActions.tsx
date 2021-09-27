@@ -8,7 +8,10 @@ import {
   ADD_LIKE_SUCCESS,
   LIKE_FAILED,
   CATCH_POKEMON_SUCCESS,
-  CATCH_POKEMON_FAILED, ADD_UNLIKE_SUCCESS
+  CATCH_POKEMON_FAILED,
+  ADD_UNLIKE_SUCCESS,
+  DELETE_CATCH_POKEMON,
+  ALL_DELETE_CATCH_POKEMON,
 } from "./types";
 import axios from "axios";
 import { Dispatch } from "redux";
@@ -19,9 +22,7 @@ interface IResults {
 
 export const getPokemons = () => async (dispatch: Dispatch) => {
   try {
-    const res = await axios.get<IResults>(
-      "https://pokeapi.co/api/v2/pokemon/"
-    );
+    const res = await axios.get<IResults>("https://pokeapi.co/api/v2/pokemon/");
     dispatch({ type: GET_POKE_SUCCESS, payload: res.data.results });
   } catch (err) {
     dispatch({ type: POKE_FAILED, payload: err });
@@ -50,26 +51,42 @@ export const getPokemonAbilities =
     }
   };
 
-  export const addLike = (id: string) => async (dispatch: Dispatch) => {
-    try {
-      dispatch({ type: ADD_LIKE_SUCCESS, payload: {id} });
-    } catch (err) {
-      dispatch({type: LIKE_FAILED, payload: err})
-    }
-  };
-
-  export const addUnlike = (id: string) => async (dispatch: Dispatch) => {
-    try{
-      dispatch({type: ADD_UNLIKE_SUCCESS, payload: {id}})
-    }catch (err){
-      dispatch({type: LIKE_FAILED, payload: err})
-    }
+export const addLike = (id: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: ADD_LIKE_SUCCESS, payload: { id } });
+  } catch (err) {
+    dispatch({ type: LIKE_FAILED, payload: err });
   }
+};
 
-  export const catchPokemon = (pokemon: any) => async (dispatch: Dispatch) => {
-    try {
-      dispatch({type: CATCH_POKEMON_SUCCESS, payload: {pokemon}})
-    } catch (err) {
-      dispatch({type: CATCH_POKEMON_FAILED, payload: err})
-    }
+export const addUnlike = (id: string) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: ADD_UNLIKE_SUCCESS, payload: { id } });
+  } catch (err) {
+    dispatch({ type: LIKE_FAILED, payload: err });
   }
+};
+
+export const catchPokemon = (pokemon: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: CATCH_POKEMON_SUCCESS, payload: { pokemon } });
+  } catch (err) {
+    dispatch({ type: CATCH_POKEMON_FAILED, payload: err });
+  }
+};
+
+export const deletePokemon = (pokemon: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: DELETE_CATCH_POKEMON, payload: { pokemon } });
+  } catch (err) {
+    dispatch({ type: CATCH_POKEMON_FAILED, payload: err });
+  }
+};
+
+export const allDeletePokemon = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch({ type: ALL_DELETE_CATCH_POKEMON });
+  } catch (err) {
+    dispatch({ type: CATCH_POKEMON_FAILED, payload: err });
+  }
+};

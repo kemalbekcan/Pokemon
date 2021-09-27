@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { bindActionCreators, Dispatch } from "redux";
-import EventButton from "./EventButton";
 import { addLike, addUnlike } from "../actions/pokemonActions";
 
 interface IProps {
