@@ -61,6 +61,37 @@ header .nav-item .nav-link:hover{
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
+.pokCatchArea{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.pokCatchArea .card{
+  position: relative;
+  width: 18rem;
+}
+.pokCatchArea .card .cardImage {
+  display: block;
+}
+
+.pokCatchArea .card p{
+  position: absolute;
+  right: 1px;
+  padding: 2px 10px;
+  cursor: pointer;
+}
+
+.fa-minus-circle{
+  color: red;
+  font-size: 20px;
+}
+
+.fa-minus-circle:hover{
+  transform: translateY(+7px);
+  transition: 1.3s;
+}
+
 @media screen and (max-width: 520px) {
   header {
     overflow-x: scroll !important;

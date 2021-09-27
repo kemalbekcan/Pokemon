@@ -29,11 +29,14 @@ const PokemonCatch = ({
   failedMessage,
 }: IProps) => {
   const [wildPokemon, setWildPokemon] = useState<any>(0);
+
   const pokeId = () => {
     const min = Math.ceil(1);
     const max = Math.ceil(151);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
+    const sayi = Math.floor(Math.random() * (max - min + 1)) + min;
+    return sayi;
   };
+
   const encounterWildPokemon = useCallback(() => {
     axios
       .get(`https://pokeapi.co/api/v2/pokemon/${pokeId()}`)
@@ -92,37 +95,22 @@ const PokemonCatch = ({
                 className={"alert-danger"}
               />
             )}
-            <div className="d-flex flex-wrap mx-auto">
-              {pokeCatch &&
-                pokeCatch.map((poks: any) => (
-                  <div
-                    className="card mt-3 mx-auto"
-                    style={{ position: "relative" }}
-                    key={poks.pokemon}
-                  >
-                    <img
-                      className="d-flex flex-wrap"
-                      src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${poks.pokemon}.png?raw=true`}
-                      alt=""
-                      style={{
-                        border: "1px solid #ef5350",
-                        display: "block",
-                      }}
-                    />
-                    <p
-                      style={{
-                        position: "absolute",
-                        right: "1px",
-                        background: "red",
-                        padding: "2px 10px",
-                        cursor: "pointer",
-                      }}
-                      onClick={() => deletePokemon(poks.pokemon)}
-                    >
-                      x
-                    </p>
-                  </div>
-                ))}
+            <div className="mt-3 pokCatchArea">
+              <div className="d-flex flex-wrap">
+                {pokeCatch &&
+                  pokeCatch.map((poks: any) => (
+                    <div className="card mt-3 mb-3 mx-auto" key={poks.pokemon}>
+                      <img
+                        className="d-flex flex-wrap cardImage"
+                        src={`https://github.com/PokeAPI/sprites/blob/master/sprites/pokemon/${poks.pokemon}.png?raw=true`}
+                        alt={"Pokemon Avatar"}
+                      />
+                      <p onClick={() => deletePokemon(poks.pokemon)}>
+                        <i className="fas fa-minus-circle"></i>
+                      </p>
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
         </div>

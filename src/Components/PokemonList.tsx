@@ -5,7 +5,7 @@ import { bindActionCreators, Dispatch } from "redux";
 import { addLike, addUnlike } from "../actions/pokemonActions";
 
 interface IProps {
-  pokemon: {name: string, url: string};
+  pokemon: { name: string; url: string };
   addLike: (pokemonIndex: string) => void;
   addUnlike: (pokemonIndex: string) => void;
   favourite: any;
@@ -31,21 +31,26 @@ const PokemonList = ({ pokemon, addLike, addUnlike, favourite }: IProps) => {
             bulk of the card's content.
           </p>
           <div className="d-flex flex-wrap mx-auto justify-content-center">
-          <Link to={`/details/${pokemonIndex}`} className="btn btn-primary">
-            Go details
-          </Link>
-            {favourite.filter((fav: { id: string; }) => fav.id === pokemonIndex).length > 0 ? (
-                <button className="btn btn-primary shadow-none mx-3" onClick={() => addUnlike(pokemonIndex)}>
-                  like
-                </button>
+            <Link to={`/details/${pokemonIndex}`} className="btn btn-primary">
+              Go details
+            </Link>
+            {favourite.filter((fav: { id: string }) => fav.id === pokemonIndex)
+              .length > 0 ? (
+              <button
+                className="btn btn-primary shadow-none mx-3"
+                onClick={() => addUnlike(pokemonIndex)}
+              >
+                like
+              </button>
             ) : (
-                <button className="btn btn-primary shadow-none mx-3" onClick={() => addLike(pokemonIndex)}>
-                  Unlike
-                </button>
+              <button
+                className="btn btn-primary shadow-none mx-3"
+                onClick={() => addLike(pokemonIndex)}
+              >
+                Unlike
+              </button>
             )}
-
           </div>
-          
         </div>
       </div>
     </Fragment>
@@ -58,7 +63,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   addLike: bindActionCreators(addLike, dispatch),
-  addUnlike: bindActionCreators(addUnlike, dispatch)
+  addUnlike: bindActionCreators(addUnlike, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PokemonList);

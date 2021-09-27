@@ -24,6 +24,8 @@ interface IIinitialState {
     pokeCatch: any;
 }
 
+
+
 const initialState: IIinitialState = {
     loading: true,
     pokemons: [],
@@ -32,7 +34,7 @@ const initialState: IIinitialState = {
     stats: [],
     abilities: [],
     favourite: [],
-    pokeCatch: []
+    pokeCatch: [],
 }
 
 interface IPokeActions {
@@ -108,12 +110,14 @@ const pokeReducers = (state: IIinitialState = initialState, action: pokeActions)
                 loading: false,
             }
         case ADD_LIKE_SUCCESS:
+            localStorage.setItem("like", JSON.stringify([action.payload, ...state.favourite]))
             return {
                 ...state,
                 favourite: [action.payload, ...state.favourite],
                 loading: false,
             }
         case ADD_UNLIKE_SUCCESS:
+            localStorage.setItem("like", JSON.stringify(state.favourite.filter((fav: any) => fav.id !== action.payload.id)))
             return {
                 ...state,
                 favourite: state.favourite.filter((fav: any) => fav.id !== action.payload.id),
